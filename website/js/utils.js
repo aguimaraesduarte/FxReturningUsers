@@ -4,9 +4,7 @@ function previousDate(date){
   // passed as an argument
   var dow = date.day();
   var newDate = null;
-  if(dow == 7){
-    newDate = date.day(6);
-  } else if (dow == 6){
+  if (dow == 6){
     newDate = date.day(5);
   } else if (dow == 5){
     newDate = date.day(4);
@@ -16,10 +14,12 @@ function previousDate(date){
     newDate = date.day(2);
   } else if (dow ==2){
     newDate = date.day(1);
+  } else if(dow == 1){
+    newDate = date.day(0);
   } else {
     newDate = date.day(-1);
   }
-  return newDate;
+return newDate;
 }
 
 function nextDate(date){
@@ -28,9 +28,7 @@ function nextDate(date){
   // passed as an argument
   var dow = date.day();
   var newDate = null;
-  if(dow == 7){
-    newDate = date.day(8);
-  } else if (dow == 6){
+  if (dow == 6){
     newDate = date.day(7);
   } else if (dow == 5){
     newDate = date.day(6);
@@ -38,10 +36,12 @@ function nextDate(date){
     newDate = date.day(5);
   } else if (dow == 3){
     newDate = date.day(4);
-  } else if (dow ==2){
+  } else if (dow == 2){
     newDate = date.day(3);
-  } else {
+  } else if (dow == 1){
     newDate = date.day(2);
+  } else {
+    newDate = date.day(1);
   }
   return newDate;
 }
