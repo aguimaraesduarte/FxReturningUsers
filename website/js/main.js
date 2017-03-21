@@ -27,11 +27,13 @@ var global = {
 // partially applied functions for loading
 // json data for histograms for hours
 // between use
-var getHoursFilePath = getFilePath.bind(this, "tsla")
+var getTSLAFilePath = getFilePath.bind(this, "tsla")
+var getTUNAFilePath = getFilePath.bind(this, "tuna")
 
-global.currentDate = previousDate(moment())
+global.currentDate = moment("2016-09-01").day(4)
 
-var hoursFile = getHoursFilePath(global.currentDate)
+var TSLAFile = getTSLAFilePath(global.currentDate)
+var TUNAFile = getTUNAFilePath(global.currentDate)
 
 var firefoxReleasesPath = "https://product-details.mozilla.org/1.0/firefox.json"
 
@@ -79,12 +81,30 @@ d3.queue()
     {
       title: "Rates",
       target: "#rates",
-      y_accessor: ["tuna_neg_prop", "bad_dates_prop", "tsla_neg_prop", "tsla_tuna_neg_prop"],//,
-                   //"tsla_30_prop", "tuna_90_prop"],
-      legend: ["tuna_neg_prop", "bad_dates_prop", "tsla_neg_prop", "tsla_tuna_neg_prop"],//,
-                   //"tsla_30_prop", "tuna_90_prop"],
+      y_accessor: ["tuna_neg_prop", "bad_dates_prop", "tsla_neg_prop", "tsla_tuna_neg_prop"],
+      legend: ["tuna_neg_prop", "bad_dates_prop", "tsla_neg_prop", "tsla_tuna_neg_prop"],
       description: '',
       format: "percentage",
+    },
+    {
+      title: "TSLA",
+      target: "#tsla",
+      y_accessor: ["tsla_30_prop"],
+      legend: ["tsla_30_prop"],
+      description: '',
+      format: "percentage",
+      min_y: 0.01,
+      max_y: 0.02,
+    },
+    {
+      title: "TUNA",
+      target: "#tuna",
+      y_accessor: ["tuna_90_prop"],
+      legend: ["tuna_90_prop"],
+      description: '',
+      format: "percentage",
+      min_y: 0.98,
+      max_y: 0.99,
     }
   ]
 
@@ -122,23 +142,25 @@ d3.queue()
   .on('click', function(){
     global.currentDate = previousDate(global.currentDate);
 
-    var hoursFile = getHoursFilePath(global.currentDate);
+    var TSLAFile = getTSLAFilePath(global.currentDate);
+    var TUNAFile = getTUNAFilePath(global.currentDate);
 
-    updateHours(hoursFile);
+    updateHours(TSLAFile, TUNAFile);
   });
 
   d3.select('.hero-right')
   .on('click', function(){
     global.currentDate = nextDate(global.currentDate);
 
-    var hoursFile = getHoursFilePath(global.currentDate);
+    var TSLAFile = getTSLAFilePath(global.currentDate);
+    var TUNAFile = getTUNAFilePath(global.currentDate);
 
-    updateHours(hoursFile);
+    updateHours(TSLAFile, TUNAFile);
   });
 })
 
 // initial draw of hours histogram
-updateHours(hoursFile)
+updateHours(TSLAFile, TUNAFile)
 
 // called if there is no json for the
 // corresponding address created
@@ -158,11 +180,11 @@ function createMissingDataChart(target){
   });
 }
 
-function updateHours(hoursFile){
+function updateHours(TSLAFile, TUNAFile){
   // TODO: Histogram doesn't have commonChartProperties
   // like the other charts did. This could be updated,
   // however it is low priority.
-  var dates = hoursFile.replace(".json", "")
+  var dates = TSLAFile.replace(".json", "")
     .split("-")
     .slice(1, 3)
 
@@ -172,8 +194,9 @@ function updateHours(hoursFile){
   d3.select(".formatted-date").text(dateStr)
 
   d3.queue()
-  .defer(d3.json, hoursFile)
-  .await(function(error, fx_retusers_tsla){
+  .defer(d3.json, TSLAFile)
+  .defer(d3.json, TUNAFile)
+  .await(function(error, fx_retusers_tsla, fx_retusers_tuna){
     var target = "#fx_retusers_tsla";
     if(fx_retusers_tsla){
       // if(global.hours.min == null){
@@ -189,50 +212,46 @@ function updateHours(hoursFile){
         data: fx_retusers_tsla,
         width: global.chart.width,
         height: 300,
+        min_x: 30,
+        max_x: 180,
+        min_y: 0,
+        max_y: 1000,
         xax_count: global.chart.xax_count,
         right: global.chart.right,
         target: target,
         y_accessor: "count",
         x_accessor: "days",
-        min_x: 30,
-        max_x: 180,
-        min_y: 0,
-        max_y: 35000,
         transition_on_update: false,
         full_width: true
       });
     } else {
       createMissingDataChart(target);
     }
-  });
 
-  d3.queue()
-  .defer(d3.json, hoursFile)
-  .await(function(error, fx_retusers_tuna){
     var target = "#fx_retusers_tuna";
-    if(fx_retusers_tsla){
+    if(fx_retusers_tuna){
       // if(global.hours.min == null){
-      //   global.hours.min = fx_retusers_tsla.reduce(function(a, b){
+      //   global.hours.min = fx_retusers_tuna.reduce(function(a, b){
       //     return a < b.hours ? a : b.hours
       //   }, Number.MAX_VALUE)
-      //   global.hours.max = fx_retusers_tsla.reduce(function(a, b){
+      //   global.hours.max = fx_retusers_tuna.reduce(function(a, b){
       //     return a > b.hours ? a : b.hours
       //   }, Number.MIN_VALUE)
       // }
       MG.data_graphic({
         title: "Count of Days Until Next Activity (<= 90)",
-        data: fx_retusers_tsla,
+        data: fx_retusers_tuna,
         width: global.chart.width,
         height: 300,
+        min_x: 0,
+        max_x: 90,
+        min_y: 0,
+        max_y: 1000*1000,
         xax_count: global.chart.xax_count,
         right: global.chart.right,
         target: target,
         y_accessor: "count",
         x_accessor: "days",
-        min_x: 0,
-        max_x: 90,
-        min_y: 0,
-        max_y: 35000,
         transition_on_update: false,
         full_width: true
       });

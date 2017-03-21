@@ -50,14 +50,11 @@ function getFilePath(units, date){
   // create a json request path
   // based on the unit & date
   var currentDate = date.clone()
-  console.log(date)
 
   // get the two strings to use for a json request
   var currentDateStr = date.format('YYYYMMDD');
-  console.log(currentDateStr)
 
   var requestPath = "JSON/fx_retusers_" + units + "-" + currentDateStr + ".json";
-  concole.log(requestPath)
 
   return requestPath;
 }
