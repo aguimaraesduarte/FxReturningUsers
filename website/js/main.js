@@ -74,8 +74,8 @@ d3.queue()
     {
       title: "Rates",
       target: "#rates",
-      y_accessor: ["tuna_neg_prop", "bad_dates_prop", "tsla_neg_prop", "tsla_tuna_neg_prop"],
-      legend: ["tuna_neg_prop", "bad_dates_prop", "tsla_neg_prop", "tsla_tuna_neg_prop"],
+      y_accessor: ["tuna_neg_prop", "tsla_neg_prop", "tsla_tuna_neg_prop"], //"bad_dates_prop", 
+      legend: ["no_next_activity", "no_prev_activity", "only_active_on_day"], //"bad_dates_prop", 
       description: '',
       format: "percentage",
     },
@@ -83,7 +83,7 @@ d3.queue()
       title: "TSLA",
       target: "#tsla",
       y_accessor: ["tsla_30_prop"],
-      legend: ["tsla_30_prop"],
+      legend: ["tsla"],
       description: '',
       format: "percentage",
       min_y: 0.01,
@@ -93,11 +93,11 @@ d3.queue()
       title: "TUNA",
       target: "#tuna",
       y_accessor: ["tuna_90_prop"],
-      legend: ["tuna_90_prop"],
+      legend: ["tuna"],
       description: '',
       format: "percentage",
-      min_y: 0.98,
-      max_y: 0.99,
+      min_y: 0.975,
+      max_y: 0.985,
     }
   ]
 
