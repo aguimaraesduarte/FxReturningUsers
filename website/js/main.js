@@ -16,17 +16,10 @@ var global = {
   // in metrics graphics supported
   // format
   allMarkers: null,
-  // // min and max hours
-  // // for histograms
-  // hours: {
-  //   min: null,
-  //   max: null
-  // }
 }
 
 // partially applied functions for loading
-// json data for histograms for hours
-// between use
+// json data for histograms for tsla and tuna
 var getTSLAFilePath = getFilePath.bind(this, "tsla")
 var getTUNAFilePath = getFilePath.bind(this, "tuna")
 
@@ -145,7 +138,7 @@ d3.queue()
     var TSLAFile = getTSLAFilePath(global.currentDate);
     var TUNAFile = getTUNAFilePath(global.currentDate);
 
-    updateHours(TSLAFile, TUNAFile);
+    updateDates(TSLAFile, TUNAFile);
   });
 
   d3.select('.hero-right')
@@ -155,12 +148,12 @@ d3.queue()
     var TSLAFile = getTSLAFilePath(global.currentDate);
     var TUNAFile = getTUNAFilePath(global.currentDate);
 
-    updateHours(TSLAFile, TUNAFile);
+    updateDates(TSLAFile, TUNAFile);
   });
 })
 
-// initial draw of hours histogram
-updateHours(TSLAFile, TUNAFile)
+// initial draw of histograms
+updateDates(TSLAFile, TUNAFile)
 
 // called if there is no json for the
 // corresponding address created
@@ -180,7 +173,7 @@ function createMissingDataChart(target){
   });
 }
 
-function updateHours(TSLAFile, TUNAFile){
+function updateDates(TSLAFile, TUNAFile){
   // TODO: Histogram doesn't have commonChartProperties
   // like the other charts did. This could be updated,
   // however it is low priority.
@@ -199,14 +192,6 @@ function updateHours(TSLAFile, TUNAFile){
   .await(function(error, fx_retusers_tsla, fx_retusers_tuna){
     var target = "#fx_retusers_tsla";
     if(fx_retusers_tsla){
-      // if(global.hours.min == null){
-      //   global.hours.min = fx_retusers_tsla.reduce(function(a, b){
-      //     return a < b.hours ? a : b.hours
-      //   }, Number.MAX_VALUE)
-      //   global.hours.max = fx_retusers_tsla.reduce(function(a, b){
-      //     return a > b.hours ? a : b.hours
-      //   }, Number.MIN_VALUE)
-      // }
       MG.data_graphic({
         title: "Count of Days Since Last Activity (>= 30)",
         data: fx_retusers_tsla,
@@ -215,14 +200,14 @@ function updateHours(TSLAFile, TUNAFile){
         min_x: 30,
         max_x: 180,
         min_y: 0,
-        max_y: 1000,
+        max_y: 0.05,
         xax_count: global.chart.xax_count,
         right: global.chart.right,
         target: target,
         y_accessor: "count",
         x_accessor: "days",
         transition_on_update: false,
-        full_width: true
+        full_width: true,
       });
     } else {
       createMissingDataChart(target);
@@ -230,14 +215,6 @@ function updateHours(TSLAFile, TUNAFile){
 
     var target = "#fx_retusers_tuna";
     if(fx_retusers_tuna){
-      // if(global.hours.min == null){
-      //   global.hours.min = fx_retusers_tuna.reduce(function(a, b){
-      //     return a < b.hours ? a : b.hours
-      //   }, Number.MAX_VALUE)
-      //   global.hours.max = fx_retusers_tuna.reduce(function(a, b){
-      //     return a > b.hours ? a : b.hours
-      //   }, Number.MIN_VALUE)
-      // }
       MG.data_graphic({
         title: "Count of Days Until Next Activity (<= 90)",
         data: fx_retusers_tuna,
@@ -246,14 +223,14 @@ function updateHours(TSLAFile, TUNAFile){
         min_x: 0,
         max_x: 90,
         min_y: 0,
-        max_y: 1000*1000,
+        max_y: 0.8,
         xax_count: global.chart.xax_count,
         right: global.chart.right,
         target: target,
         y_accessor: "count",
         x_accessor: "days",
         transition_on_update: false,
-        full_width: true
+        full_width: true,
       });
     } else {
       createMissingDataChart(target);

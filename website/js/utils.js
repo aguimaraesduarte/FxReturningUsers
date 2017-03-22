@@ -1,6 +1,6 @@
 function previousDate(date){
   // helper function to get the
-  // prev. M, W, F from the date
+  // prev. date from the date
   // passed as an argument
   var dow = date.day();
   var newDate = null;
@@ -24,7 +24,7 @@ return newDate;
 
 function nextDate(date){
   // helper function to get the
-  // next M, W, F from the date
+  // next date from the date
   // passed as an argument
   var dow = date.day();
   var newDate = null;
@@ -51,7 +51,7 @@ function getFilePath(units, date){
   // based on the unit & date
   var currentDate = date.clone()
 
-  // get the two strings to use for a json request
+  // get the string to use for a json request
   var currentDateStr = date.format('YYYYMMDD');
 
   var requestPath = "JSON/fx_retusers_" + units + "-" + currentDateStr + ".json";
