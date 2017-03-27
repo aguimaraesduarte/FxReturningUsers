@@ -72,7 +72,7 @@ d3.queue()
   // common properties initialized below
   var customChartProperties = [
     {
-      title: "Rates",
+      title: "Misc Rates",
       target: "#rates",
       y_accessor: ["tuna_neg_prop", "tsla_neg_prop", "tsla_tuna_neg_prop"], //"bad_dates_prop", 
       legend: ["no_next_activity", "no_prev_activity", "only_active_on_day"], //"bad_dates_prop", 
@@ -80,7 +80,7 @@ d3.queue()
       format: "percentage",
     },
     {
-      title: "TSLA",
+      title: "Time Since Last Activity",
       target: "#tsla",
       y_accessor: ["tsla_30_prop"],
       legend: ["tsla"],
@@ -90,7 +90,7 @@ d3.queue()
       max_y: 0.02,
     },
     {
-      title: "TUNA",
+      title: "Time Until Next Activity",
       target: "#tuna",
       y_accessor: ["tuna_90_prop"],
       legend: ["tuna"],
@@ -193,7 +193,7 @@ function updateDates(TSLAFile, TUNAFile){
     var target = "#fx_retusers_tsla";
     if(fx_retusers_tsla){
       MG.data_graphic({
-        title: "Count of Days Since Last Activity (>= 30)",
+        title: "Frequency of Days Since Last Activity",
         data: fx_retusers_tsla,
         width: global.chart.width,
         height: 300,
@@ -216,7 +216,7 @@ function updateDates(TSLAFile, TUNAFile){
     var target = "#fx_retusers_tuna";
     if(fx_retusers_tuna){
       MG.data_graphic({
-        title: "Count of Days Until Next Activity (<= 90)",
+        title: "Frequency of Days Until Next Activity",
         data: fx_retusers_tuna,
         width: global.chart.width,
         height: 300,

@@ -67,9 +67,10 @@
 
         <h3><font color='white'>Direct Links to Charts</font></h3>
         <ul>
-          <li><a href="#tsla">TSLA</a></li>
-          <li><a href="#tuna">TUNA</a></li>
-          <li><a href="#rates">Rates</a></li>
+          <li><a href="#tsla">Time Since Last Activity</a></li>
+          <li><a href="#tuna">Time Until Next Activity</a></li>
+          <li><a href="#rates">Misc Rates</a></li>
+          <li><a href="#histograms">Histograms</a></li>
         </ul>
       </div>
     </div>
@@ -88,23 +89,38 @@
 
     <div class='row graphics chart'>
       <div class='col-lg-8 text-center graphic' id='tsla'></div>
-      <div class='col-lg-4 detail-prose'><p></p>
+      <div class='col-lg-4 detail-prose'><p>This graph shows the daily percentage of DAU that have Time Since Last Activity greater than 30 days. In other words, how many users on a daily basis have come back to Firefox after at least a month away from the browser. We want this number to be low and decrease (i.e., less profiles have been inactive for more than a month), which is what we see here.</p>
       </div>
     </div>
 
     <div class='row graphics chart'>
       <div class='col-lg-8 text-center graphic' id='tuna'></div>
-      <div class='col-lg-4 detail-prose'><p></p>
+      <div class='col-lg-4 detail-prose'><p>This graph shows the daily percentage of DAU that have Time Until Next activity up to 90 days. In other words, how many users on a daily basis will come back to using Firefox within 3 months. We want this number to be very high and increase (i.e., most profiles should be using the browser again not too long after the day of analysis), which is what we see here.</p>
       </div>
     </div>
 
     <div class='row graphics chart'>
       <div class='col-lg-8 text-center graphic' id='rates'></div>
-      <div class='col-lg-4 detail-prose'><p></p>
+      <div class='col-lg-4 detail-prose'><p>This graph shows three daily rates of user behavior.
+      <ul>
+      <li>No Next Activity shows the daily percentage of DAU that were not active after the day of analysis. This means that the day of analysis was their last recorded activity in main summary (even past the 90 days limit of TUNA).</li>
+      <li>No Previous Activity shows the daily percentage of DAU that were not active before the day of analysis. This means that the day of analysis was their first recorded activity in main summary.</li>
+      <li>Only Active On Day shows the daily percentage of DAU that were only active on the day of analysis according to main summary pings.</li>
+      </ul>
+      We want these rates to be low and ideally decrease
+      </p>
       </div>
     </div>
 
     <div class='row hor-line'></div>
+
+    <div id="histograms"/>
+      <div class='row'>
+        <div class='col-lg-12 subtitle-prose'>
+          <h2 class='text-center'>Histogram of Days Since Last/Until Next Activity</h2>
+          <p>This section contains daily histograms of the days since last or until next activity for users who have TSLA greater than a month or TUNA up to three months. These histograms show frequencies (percentages), and the y-axes go from 0 to 1 (0% to 100%). The values are conditional on having TSLA >= 30 days for the first graph and TUNA <= 90 days for the second.</p>
+        </div>
+      </div>
 
     <div class='row hero-controls-bar'>
         <div class='col-lg-8 text-center date-hero' data-toggle="tooltip" data-placement="bottom" title="date of analysis can be adjusted with the arrow bars above!">
@@ -118,12 +134,12 @@
 
       <div class='row graphics chart'>
         <div class='col-lg-8 text-center graphic' id='fx_retusers_tsla'></div>
-        <div class='col-lg-4 detail-prose'><p></p></div>
+        <div class='col-lg-4 detail-prose'><p>This histogram shows the distribution of days since last activity for users whose Time Since Last Activity is greater than a month. We can see that there are daily effects due to weekday/weekend, and that some users come back to the browser even after six months of inactivity.</p></div>
       </div>
 
       <div class='row graphics chart'>
         <div class='col-lg-8 text-center graphic' id='fx_retusers_tuna'></div>
-        <div class='col-lg-4 detail-prose'><p></p></div>
+        <div class='col-lg-4 detail-prose'><p>This histogram shows the distribution of days until next activity for users whose Time Until Next Activity is within three months. We can see that almost 100% of these profiles come back within a week to 10 days.</p></div>
       </div>
 
   <div class='container text-center'>
